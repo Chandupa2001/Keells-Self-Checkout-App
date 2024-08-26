@@ -1,16 +1,34 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { View, Text } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    "roboto": require('./../assets/fonts/Roboto-Regular.ttf'),
-    "roboto-medium": require('./../assets/fonts/Roboto-Medium.ttf'),
-    "roboto-bold": require('./../assets/fonts/Roboto-Bold.ttf')
+    "poppins": require('./../assets/fonts/Poppins-Regular.ttf'),
+    "poppins-semibold": require('./../assets/fonts/Poppins-SemiBold.ttf'),
+    "poppins-bold": require('./../assets/fonts/Poppins-Bold.ttf')
   });
+
+  const [isSplashVisible, setSplashVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSplashVisible(false);
+    }, 3000); 
+
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!fontsLoaded) {
     return <View><Text>Loading...</Text></View>;
+  }
+
+  if (isSplashVisible) {
+    return (
+      <View style={styles.splashContainer}>
+      </View>
+    );
   }
   
   return (
@@ -19,3 +37,22 @@ export default function RootLayout() {
     </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  splashContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+  },
+  splashImage: {
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain',
+  },
+});
