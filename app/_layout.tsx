@@ -10,25 +10,8 @@ export default function RootLayout() {
     "poppins-bold": require('./../assets/fonts/Poppins-Bold.ttf')
   });
 
-  const [isSplashVisible, setSplashVisible] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSplashVisible(false);
-    }, 3000); 
-
-    return () => clearTimeout(timer);
-  }, []);
-
   if (!fontsLoaded) {
-    return <View><Text>Loading...</Text></View>;
-  }
-
-  if (isSplashVisible) {
-    return (
-      <View style={styles.splashContainer}>
-      </View>
-    );
+    return <View style={styles.centered} ><Text>Loading...</Text></View>;
   }
   
   return (

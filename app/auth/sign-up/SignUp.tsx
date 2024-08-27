@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { Feather, Fontisto, Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { router } from 'expo-router';
+import { Href, useRouter } from 'expo-router';
 
 export default function SignUp() {
   const [hidePass, setHidePass] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('+94');
+
+  const router = useRouter();
 
   const handlePhoneNumberChange = (text: any) => {
     if (!text.startsWith('+94')) {
@@ -106,7 +108,7 @@ export default function SignUp() {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => router.push('/auth/sign-up/Verify')} >
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors';
 import { useRouter } from 'expo-router';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function Login() {
 
@@ -17,7 +18,7 @@ export default function Login() {
         } else {
             setPhoneNumber(text);
         }
-    };
+    };    
 
     return (
         <View>
@@ -26,7 +27,7 @@ export default function Login() {
             </View>
             <View style={styles.logoContainer}>
                 <Image
-                    source={require('../../../assets/images/logo green.png')}
+                    source={require('../../../assets/images/logo_green.png')}
                     style={styles.logo}
                     resizeMode="contain"
                 />
