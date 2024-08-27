@@ -1,16 +1,114 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { Colors } from '@/constants/Colors';
+import { Feather, Fontisto, Ionicons } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { router } from 'expo-router';
 
 export default function SignUp() {
+  const [hidePass, setHidePass] = useState(true);
+
   return (
-    <View>
-      <View style={styles.vectorContainer}>
-        <Image source={require('../../../assets/images/vector.png')} style={styles.vector} />
+    <KeyboardAwareScrollView>
+      <View>
+        <View style={styles.vectorContainer}>
+          <Image source={require('../../../assets/images/vector.png')} style={styles.vector} />
+        </View>
+        <View style={styles.itemContainer}>
+          <Text style={styles.welcomeText}>Welcome!</Text>
+          <Text style={styles.txt}>Welcome to our self-service application.</Text>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Name</Text>
+            <View style={styles.inputField}>
+              <Ionicons
+                name="person-outline"
+                size={18}
+                color="#6E726E"
+                style={{ marginLeft: '3%', marginRight: '8%' }}
+              />
+              <TextInput
+                placeholder="Enter your name"
+                placeholderTextColor={'#C8C8C8'}
+                style={styles.textInput}
+              />
+            </View>
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Email address</Text>
+            <View style={styles.inputField}>
+              <Fontisto
+                name="email"
+                size={18}
+                color="#6E726E"
+                style={{ marginLeft: '3%', marginRight: '8%' }}
+              />
+              <TextInput
+                placeholder="Enter your email address"
+                placeholderTextColor={'#C8C8C8'}
+                style={styles.textInput}
+              />
+            </View>
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Phone Number</Text>
+            <View style={styles.inputField}>
+              <Feather
+                name="phone"
+                size={18}
+                color="#6E726E"
+                style={{ marginLeft: '3%', marginRight: '8%' }}
+              />
+              <TextInput
+                placeholder="Enter your phone number"
+                placeholderTextColor={'#C8C8C8'}
+                style={styles.textInput}
+                secureTextEntry={hidePass}
+              />
+            </View>
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Password</Text>
+            <View style={styles.inputField}>
+              <Feather
+                name="lock"
+                size={18}
+                color="#6E726E"
+                style={{ marginLeft: '3%', marginRight: '8%' }}
+              />
+              <TextInput
+                placeholder="Enter your password"
+                placeholderTextColor={'#C8C8C8'}
+                style={styles.textInput}
+                secureTextEntry={hidePass}
+              />
+              <Feather
+                name={hidePass ? 'eye-off' : 'eye'}
+                size={18}
+                onPress={() => setHidePass(!hidePass)}
+                style={styles.icon}
+              />
+            </View>
+          </View>
+
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </TouchableOpacity>
+
+          <View>
+            <Text style={styles.loginText}>
+              already have an account?
+              <Text style={styles.loginLink} onPress={() => router.push('/auth/sign-in/Login')} > Log in</Text>
+            </Text>
+          </View>
+
+        </View>
       </View>
-      <Text>Nexus Registration</Text>
-    </View>
-  )
+    </KeyboardAwareScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -26,54 +124,75 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   vectorContainer: {
-    marginTop: -17
+    marginTop: -17,
   },
-  logoContainer: {
-    marginBottom: 20
+  itemContainer: {
+    marginHorizontal: '5%',
+    marginTop: '3%',
   },
-  logo: {
-    width: '50%',
-    height: '45%',
-    alignSelf: 'center'
+  welcomeText: {
+    fontSize: 24,
+    fontFamily: 'poppins-semibold',
+    color: Colors.Primary,
+  },
+  txt: {
+    fontFamily: 'poppins',
+    color: '#AAAAAA',
+    marginTop: -5,
+    marginBottom: '10%',
   },
   inputContainer: {
-    marginHorizontal: '10%',
-    marginTop: -20
+    marginBottom: 15,
   },
   inputText: {
-    fontFamily: 'roboto'
+    fontFamily: 'poppins',
+    color: '#3B3D3B',
   },
-  input: {
+  inputField: {
     padding: 10,
     borderWidth: 1,
     borderColor: '#C4C4C4',
-    backgroundColor: '#D9D9D9',
+    backgroundColor: '#E5E5E5',
     borderRadius: 5,
-    marginBottom: 20,
     marginTop: 5,
     fontSize: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textInput: {
+    flex: 1,
+    marginRight: 8,
+  },
+  icon: {
+    textAlign: 'right',
+    marginRight: '3%'
   },
   button: {
-    marginHorizontal: '10%',
     padding: 15,
     backgroundColor: Colors.Primary,
     borderRadius: 10,
     alignItems: 'center',
-    marginBottom: 20,
-  },
+    marginVertical: '8%',
+    shadowColor: "#82C969",
+    shadowOffset: { width: 0, height: 10 }, 
+    shadowOpacity: 0.8, 
+    shadowRadius: 4, 
+    elevation: 8
+},
   buttonText: {
     color: '#FFF',
     fontSize: 16,
-    fontFamily: 'roboto-bold',
+    fontFamily: 'poppins-bold',
   },
-  createAccountText: {
+  loginText: {
     fontSize: 14,
     color: 'black',
     textAlign: 'center',
-    marginTop: -15,
-    fontFamily: 'roboto'
+    marginTop: -8,
+    fontFamily: 'poppins'
   },
-  createAccountLink: {
+  loginLink: {
     color: Colors.Primary,
     fontWeight: 'bold',
   },

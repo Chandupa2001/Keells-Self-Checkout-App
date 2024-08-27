@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 1,
         borderColor: '#C4C4C4',
-        backgroundColor: '#D9D9D9',
+        backgroundColor: 'E5E5E5',
         borderRadius: 5,
         marginBottom: 20,
         marginTop: 5,
@@ -108,6 +108,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         marginBottom: 20,
+        shadowColor: "#82C969",
+        shadowOffset: { width: 0, height: 10 }, 
+        shadowOpacity: 0.8, 
+        shadowRadius: 4, 
+        elevation: 8
     },
     buttonText: {
         color: '#FFF',
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: 'black',
         textAlign: 'center',
-        marginTop: -15,
+        marginTop: -8,
         fontFamily: 'poppins'
     },
     createAccountLink: {
