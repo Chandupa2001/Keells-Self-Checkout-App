@@ -7,6 +7,15 @@ import { router } from 'expo-router';
 
 export default function SignUp() {
   const [hidePass, setHidePass] = useState(true);
+  const [phoneNumber, setPhoneNumber] = useState('+94');
+
+  const handlePhoneNumberChange = (text: any) => {
+    if (!text.startsWith('+94')) {
+      setPhoneNumber('+94');
+    } else {
+      setPhoneNumber(text);
+    }
+  };
 
   return (
     <KeyboardAwareScrollView>
@@ -53,7 +62,7 @@ export default function SignUp() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputText}>Phone Number</Text>
+            <Text style={styles.inputText}>Nexus Mobile Number</Text>
             <View style={styles.inputField}>
               <Feather
                 name="phone"
@@ -62,10 +71,13 @@ export default function SignUp() {
                 style={{ marginLeft: '3%', marginRight: '8%' }}
               />
               <TextInput
-                placeholder="Enter your phone number"
+                placeholder="Enter your nexus number"
                 placeholderTextColor={'#C8C8C8'}
+                value={phoneNumber}
+                inputMode='numeric'
+                maxLength={12}
+                onChangeText={handlePhoneNumberChange}
                 style={styles.textInput}
-                secureTextEntry={hidePass}
               />
             </View>
           </View>
@@ -112,13 +124,6 @@ export default function SignUp() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    paddingHorizontal: 20,
-  },
   vector: {
     width: '75%',
     resizeMode: 'contain',
@@ -175,11 +180,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: '8%',
     shadowColor: "#82C969",
-    shadowOffset: { width: 0, height: 10 }, 
-    shadowOpacity: 0.8, 
-    shadowRadius: 4, 
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
     elevation: 8
-},
+  },
   buttonText: {
     color: '#FFF',
     fontSize: 16,
@@ -194,6 +199,6 @@ const styles = StyleSheet.create({
   },
   loginLink: {
     color: Colors.Primary,
-    fontWeight: 'bold',
+    fontFamily: 'poppins-semibold',
   },
 });
