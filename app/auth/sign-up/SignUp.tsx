@@ -1,13 +1,20 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ToastAndroid, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { Feather, Fontisto, Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Href, useRouter } from 'expo-router';
+import { firebase } from '../../../configs/FirebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function SignUp() {
   const [hidePass, setHidePass] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('+94');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
+  const [confirm, setConfirm] = useState(null);
 
   const router = useRouter();
 
@@ -18,6 +25,40 @@ export default function SignUp() {
       setPhoneNumber(text);
     }
   };
+
+  const onCreateAccount = async () => {
+    if (!name || !email || !phoneNumber || !password) {
+      ToastAndroid.show('Please enter all details', ToastAndroid.LONG)
+      return;
+    }
+
+    try {
+      const response = await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+      if(response.user) {
+        const uid = response.user.uid;
+        const data = {
+          id: uid,
+          name,
+          email,
+          phoneNumber
+        };
+
+        const userRef = firebase.firestore().collection('users').doc(uid);
+        await userRef.set(data);
+
+        await firebase.auth().currentUser?.sendEmailVerification();
+        Alert.alert("Success", "User created successfully! \nPlease verify your email address to proceed.")
+        router.push('/auth/sign-in/Login');
+      } else {
+        console.error('User object not available in response');
+        Alert.alert('Error', 'An unexpected error occurred during registration.')
+      }
+    } catch (error: any) {
+      console.log(error);
+      Alert.alert("Error", error.message)
+    }
+  }  
 
   return (
     <KeyboardAwareScrollView>
@@ -42,6 +83,7 @@ export default function SignUp() {
                 placeholder="Enter your name"
                 placeholderTextColor={'#C8C8C8'}
                 style={styles.textInput}
+                onChangeText={(text) => setName(text)}
               />
             </View>
           </View>
@@ -59,6 +101,8 @@ export default function SignUp() {
                 placeholder="Enter your email address"
                 placeholderTextColor={'#C8C8C8'}
                 style={styles.textInput}
+                inputMode='email'
+                onChangeText={(text) => setEmail(text)}
               />
             </View>
           </View>
@@ -98,6 +142,7 @@ export default function SignUp() {
                 placeholderTextColor={'#C8C8C8'}
                 style={styles.textInput}
                 secureTextEntry={hidePass}
+                onChangeText={(text) => setPassword(text)}
               />
               <Feather
                 name={hidePass ? 'eye-off' : 'eye'}
@@ -108,7 +153,7 @@ export default function SignUp() {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={() => router.push('/auth/sign-up/Verify')} >
+          <TouchableOpacity style={styles.button} onPress={onCreateAccount} >
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
 
@@ -118,6 +163,8 @@ export default function SignUp() {
               <Text style={styles.loginLink} onPress={() => router.push('/auth/sign-in/Login')} > Log in</Text>
             </Text>
           </View>
+
+          <View id='recaptcha'></View>
 
         </View>
       </View>
@@ -197,7 +244,8 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     marginTop: -8,
-    fontFamily: 'poppins'
+    fontFamily: 'poppins',
+    marginBottom: 10
   },
   loginLink: {
     color: Colors.Primary,

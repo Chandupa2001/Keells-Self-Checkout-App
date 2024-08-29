@@ -3,22 +3,43 @@ import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors';
 import { useRouter } from 'expo-router';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { firebase } from '../../../configs/FirebaseConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
 
-    const [phoneNumber, setPhoneNumber] = useState('+94');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [hidePass, setHidePass] = useState(true);
 
-    const router = useRouter();
+    const router = useRouter();  
 
-    const handlePhoneNumberChange = (text: any) => {
-        if (!text.startsWith('+94')) {
-            setPhoneNumber('+94');
-        } else {
-            setPhoneNumber(text);
+    const onLoginPress = async () => {
+        if (email && password) {
+            try {
+                const response = await firebase.auth().signInWithEmailAndPassword(email, password);
+                if (response.user) {
+                    const uid = response.user.uid;
+                    const userRef = await firebase.firestore().collection('users').doc(uid);
+
+                    try {
+                        const userSnapshot = await userRef.get();
+
+                        if (userSnapshot.exists) {
+                            AsyncStorage.setItem('USERID', uid);
+                            router.replace('/home/Home');
+                        }
+                    } catch (error) {
+                        
+                    }
+                } else {
+                    
+                }
+            } catch (error) {
+                
+            }
         }
-    };    
+    }
 
     return (
         <View>
@@ -36,7 +57,7 @@ export default function Login() {
             <View style={styles.itemContainer}>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Nexus Mobile Number</Text>
+                    <Text style={styles.inputText}>Email Address</Text>
                     <View style={styles.inputField}>
                         <Feather
                             name="phone"
@@ -45,12 +66,10 @@ export default function Login() {
                             style={{ marginLeft: '3%', marginRight: '8%' }}
                         />
                         <TextInput
-                            placeholder="Enter your nexus number"
+                            placeholder="Enter your email address"
                             placeholderTextColor={'#C8C8C8'}
-                            value={phoneNumber}
-                            inputMode='numeric'
-                            maxLength={12}
-                            onChangeText={handlePhoneNumberChange}
+                            inputMode='email'
+                            onChangeText={(text) => setEmail(text)}
                             style={styles.textInput}
                         />
                     </View>
@@ -70,6 +89,7 @@ export default function Login() {
                             placeholderTextColor={'#C8C8C8'}
                             style={styles.textInput}
                             secureTextEntry={hidePass}
+                            onChangeText={(text) => setPassword(text)}
                         />
                         <Feather
                             name={hidePass ? 'eye-off' : 'eye'}
@@ -80,7 +100,7 @@ export default function Login() {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={onLoginPress}>
                     <Text style={styles.buttonText}>Log In</Text>
                 </TouchableOpacity>
 
@@ -167,7 +187,8 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'center',
         marginTop: -8,
-        fontFamily: 'poppins'
+        fontFamily: 'poppins',
+        marginBottom: 10
     },
     createAccountLink: {
         color: Colors.Primary,
