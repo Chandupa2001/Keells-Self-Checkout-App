@@ -1,9 +1,14 @@
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OTPTextInput from 'react-native-otp-textinput';
 import { Colors } from '@/constants/Colors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function Verify() {
+
+  const [otp, setOtp] = useState<string | undefined>();
+
+
   return (
     <View>
       <View style={styles.vectorContainer}>
@@ -17,23 +22,26 @@ export default function Verify() {
         />
       </View>
 
-      <Text style={styles.verifyTxt} >Please type the vertification code send to</Text>
-      <Text style={[styles.verifyTxt, { marginBottom: '5%' }]} >+9471 0253XXX</Text>
+      <KeyboardAwareScrollView>
+        <Text style={styles.verifyTxt} >Please type the vertification code send to</Text>
+        <Text style={[styles.verifyTxt, { marginBottom: '5%' }]} >+9471 0253XXX</Text>
 
-      <View style={styles.otpContainer}>
-        <OTPTextInput textInputStyle={styles.otptext} tintColor={Colors.Primary} offTintColor={Colors.Primary} />
-      </View>
+        <View style={styles.otpContainer}>
+          <OTPTextInput handleTextChange={(text) => setOtp(text)} textInputStyle={styles.otptext} tintColor={Colors.Primary} offTintColor={Colors.Primary} />
+        </View>
+        <View style={styles.button} >
+          <TouchableOpacity activeOpacity={0.7} >
+            <Text style={styles.buttonText}>Verify</Text>
+          </TouchableOpacity>
+        </View>
 
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText}>Verify</Text>
-      </TouchableOpacity>
-
-      <View>
-        <Text style={styles.loginText}>
-          Miss my vertification?
-          <Text style={styles.loginLink} > Re-send code</Text>
-        </Text>
-      </View>
+        <View>
+          <Text style={styles.loginText}>
+            Miss my vertification?
+            <Text style={styles.loginLink} > Re-send code</Text>
+          </Text>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   )
 }
@@ -45,14 +53,14 @@ const styles = StyleSheet.create({
   },
   vectorContainer: {
     marginTop: -17,
-    marginBottom: 20
+    marginBottom: 10
   },
   logoContainer: {
     marginBottom: -30
   },
   logo: {
     width: '50%',
-    height: '40%',
+    height: '38%',
     alignSelf: 'center'
   },
   verifyTxt: {
@@ -62,7 +70,7 @@ const styles = StyleSheet.create({
   },
   otpContainer: {
     flex: 1,
-    alignSelf: 'center'
+    alignItems: 'center'
   },
   otptext: {
     borderWidth: 1,
@@ -74,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Primary,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: '12%',
+    marginTop: '8%',
     marginBottom: '6%',
     marginHorizontal: '5%',
     shadowColor: "#82C969",
