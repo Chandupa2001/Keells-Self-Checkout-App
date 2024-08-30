@@ -4,10 +4,12 @@ import { firebase } from '../../configs/FirebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function Home() {
 
     const [name, setName] = useState('');
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         getName();
@@ -17,7 +19,9 @@ export default function Home() {
         const uid = await AsyncStorage.getItem('USERID');
         if (uid) {
             const user = (await firebase.firestore().collection('users').doc(uid).get()).data();
-            setName(user.name);
+            if (user) {
+                setName(user.name);   
+            }
         } else {
             console.log("No user found")
         }
@@ -25,7 +29,7 @@ export default function Home() {
 
     return (
         <View>
-            <StatusBar backgroundColor={Colors.Primary} />
+            {isFocused && <StatusBar barStyle="light-content" backgroundColor={Colors.Primary} />}
             <View style={styles.topBox}>
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo} source={require('../../assets/images/logo_white.png')} />

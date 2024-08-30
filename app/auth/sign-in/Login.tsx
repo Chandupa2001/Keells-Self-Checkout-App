@@ -27,7 +27,7 @@ export default function Login() {
 
                         if (userSnapshot.exists) {
                             AsyncStorage.setItem('USERID', uid);
-                            router.replace('/home/Home');
+                            router.replace('/(tabs)/home');
                         }
                     } catch (error) {
                         
@@ -110,6 +110,8 @@ export default function Login() {
                         <Text style={styles.createAccountLink} onPress={() => router.push('/auth/sign-up/SignUp')} > Create one</Text>
                     </Text>
                 </View>
+
+                <Text style={{marginVertical: '8%', textAlign: 'center', marginTop: 0, backgroundColor: 'purple', color: 'white', padding: 15}} onPress={() => router.replace('/(tabs)/home')}>Temporary Login</Text>
 
             </View>
 
