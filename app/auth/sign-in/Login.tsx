@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput } from 'reac
 import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors';
 import { useRouter } from 'expo-router';
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import { firebase } from '../../../configs/FirebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -59,8 +59,8 @@ export default function Login() {
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputText}>Email Address</Text>
                     <View style={styles.inputField}>
-                        <Feather
-                            name="phone"
+                        <Fontisto
+                            name="email"
                             size={18}
                             color="#6E726E"
                             style={{ marginLeft: '3%', marginRight: '8%' }}
