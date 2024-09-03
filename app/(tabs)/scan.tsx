@@ -21,8 +21,8 @@ interface ItemData {
     productSize: number;
     unit: string;
     price: number;
-    qty?: number;
   };
+  qty?: number;
 }
 
 export default function Scan() {
@@ -85,9 +85,9 @@ export default function Scan() {
 
       const existingItemIndex = tempCart.findIndex((itm: ItemData) => itm.id === item.id);
       if (existingItemIndex !== -1) {
-        tempCart[existingItemIndex].data.qty += quantity;
+        tempCart[existingItemIndex].qty += quantity;
       } else {
-        tempCart.push({ ...item, data: { ...item.data, qty: quantity } });
+        tempCart.push({ ...item, data: { ...item, qty: quantity } });
       }
 
       await firebase.firestore().collection('users').doc(userId).update({ cart: tempCart });
