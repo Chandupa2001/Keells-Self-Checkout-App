@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, StatusBar, SafeAreaView, TouchableOpacity, FlatList, Alert } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import { AntDesign, Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
@@ -131,7 +131,10 @@ export default function Cart() {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-
+      <View style={styles.totalPriceContainer}>
+        <Text style={styles.totalText}>Sub Total: </Text>
+        <Text style={styles.totalPrice}>{'Rs. ' + getTotal()}</Text>
+      </View>
       <TouchableOpacity style={styles.button} >
         <Text style={styles.buttonText}>Proceed to Checkout</Text>
       </TouchableOpacity>
@@ -212,6 +215,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10
+  },
+  totalPriceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: '5%',
+    backgroundColor: '#C8C8C8',
+    padding: 10,
+    borderRadius: 15
+  },
+  totalText: {
+    fontSize: 16,
+    fontFamily: 'poppins'
+  },
+  totalPrice: {
+    fontSize: 20,
+    fontFamily: 'poppins-semibold'
   },
   button: {
     padding: 15,
