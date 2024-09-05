@@ -30,13 +30,13 @@ export default function Login() {
                             router.replace('/(tabs)/home');
                         }
                     } catch (error) {
-                        
+                        console.log(error)
                     }
                 } else {
-                    
+                    console.log("User not found")
                 }
             } catch (error) {
-                
+                console.log(error)
             }
         }
     }
