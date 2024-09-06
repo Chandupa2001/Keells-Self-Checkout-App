@@ -1,12 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  Modal,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, StatusBar, StyleSheet, Modal, Text, TouchableOpacity } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { CameraType } from "expo-camera/build/legacy/Camera.types";
@@ -21,6 +14,7 @@ interface ItemData {
     productSize: number;
     unit: string;
     price: number;
+    serialNo: string;
   };
   qty?: number;
 }
@@ -65,11 +59,13 @@ export default function Scan() {
             productSize: data.productSize,
             unit: data.unit,
             price: data.price,
+            serialNo: data.serialNo,
           },
         });
       }
     });
     setItems(tempData);
+    console.log(tempData)
   };
 
   const incrementQuantity = () => {
@@ -83,31 +79,38 @@ export default function Scan() {
   const onAddToCart = async (item: ItemData) => {
     const userId = await AsyncStorage.getItem("USERID");
     if (userId) {
-      const user = await firebase
-        .firestore()
-        .collection("users")
-        .doc(userId)
-        .get();
-      let tempCart = user.data()?.cart || [];
-
-      const existingItemIndex = tempCart.findIndex(
-        (itm: ItemData) => itm.id === item.id
-      );
-      if (existingItemIndex !== -1) {
+      const user = await firebase.firestore().collection("users").doc(userId).get();
+      let tempCart = user.data()?.cart || {};
+  
+      // Get the current cart size to determine the next number key
+      const cartNumber = Object.keys(tempCart).length;
+  
+      let existingItemIndex = Object.keys(tempCart).find((key) => tempCart[key].id === item.id);
+  
+      if (existingItemIndex) {
         tempCart[existingItemIndex].qty += quantity;
       } else {
-        tempCart.push({ ...item, data: { ...item, qty: quantity } });
+        tempCart[cartNumber] = {
+          id: item.id,
+          data: {
+            productName: item.data.productName,
+            productSize: item.data.productSize,
+            unit: item.data.unit,
+            price: item.data.price,
+            serialNo: item.data.serialNo
+          },
+          qty: quantity
+        };
       }
-
-      await firebase
-        .firestore()
-        .collection("users")
-        .doc(userId)
-        .update({ cart: tempCart });
+  
+      // Update the user's cart in Firestore
+      await firebase.firestore().collection("users").doc(userId).update({ cart: tempCart });
+  
       setModalVisible(false);
       setQuantity(1);
     }
   };
+  
 
   const onCancelPress = () => {
     setModalVisible(false);
