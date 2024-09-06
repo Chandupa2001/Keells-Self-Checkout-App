@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Alert, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors'
-import { AntDesign, Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { firebase } from '../../configs/FirebaseConfig'
@@ -14,6 +14,7 @@ interface CartItem {
     productSize: string;
     price: string;
     unit: string;
+    serialNo: string;
   };
   qty: number;
 }
@@ -152,9 +153,33 @@ export default function Cart() {
       setErrorMsg(error.message)
       setErrorModal(true);
     } else {
+      await addOrderToFirestore();
       setSuccessModal(true);
     }
   };
+
+const addOrderToFirestore = async () => {
+  try {
+    const userId = await AsyncStorage.getItem('USERID');
+    if (!userId) return;
+
+    const orderData = {
+      userId: userId,
+      cartItems: cartList, 
+      totalAmount: getTotal(),  
+      orderDate: new Date().toISOString(),  
+    };
+
+    await firebase.firestore().collection('orders').add(orderData);
+
+    await updateCart([]); 
+
+    console.log('Order saved successfully.');
+  } catch (error) {
+    console.error('Error adding order to Firestore:', error);
+  }
+};
+
 
   return (
     <SafeAreaView style={styles.container}>
