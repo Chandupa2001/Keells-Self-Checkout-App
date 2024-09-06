@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Alert } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Alert, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors'
-import { AntDesign, Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
+import { AntDesign, Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { firebase } from '../../configs/FirebaseConfig'
+import { useStripe } from '@stripe/stripe-react-native';
 
 interface CartItem {
   id: string;
@@ -22,6 +23,12 @@ export default function Cart() {
 
   const isFocused = useIsFocused();
   const [cartList, setCartList] = useState<CartItem[]>([]);
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const [loading, setLoading] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorCode, setErrorCode] = useState('');
+  const [errormsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     getCartItems();
@@ -100,6 +107,55 @@ export default function Cart() {
     }, 0);
   };
 
+  const fetchPaymentSheetParams = async () => {
+
+    const totalAmount = getTotal() * 100;
+    const response = await fetch(`http://192.168.8.106:3000/payment-sheet`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: totalAmount
+      })
+    });
+    const { paymentIntent } = await response.json();
+
+    return {
+      paymentIntent,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const { paymentIntent } = await fetchPaymentSheetParams();
+
+    const { error } = await initPaymentSheet({
+      merchantDisplayName: "Example, Inc.",
+      paymentIntentClientSecret: paymentIntent,
+      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+      //methods that complete payment after a delay, like SEPA Debit and Sofort.
+      allowsDelayedPaymentMethods: true,
+      defaultBillingDetails: {
+        name: 'Jane Doe',
+      }
+    });
+    if (!error) {
+      setLoading(true);
+    }
+  };
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      setErrorCode(error.code);
+      setErrorMsg(error.message)
+      setErrorModal(true);
+    } else {
+      setSuccessModal(true);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -135,9 +191,54 @@ export default function Cart() {
         <Text style={styles.totalText}>Sub Total: </Text>
         <Text style={styles.totalPrice}>{'Rs. ' + getTotal()}</Text>
       </View>
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={ async () => {
+        await initializePaymentSheet().then( async () => {
+          await openPaymentSheet();
+        })
+      }} >
         <Text style={styles.buttonText}>Proceed to Checkout</Text>
       </TouchableOpacity>
+
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={successModal}
+        onRequestClose={() => setSuccessModal(!successModal)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <View style={[styles.iconContainer, {backgroundColor: Colors.Primary}]}>
+              <Ionicons name='bag-check-outline' color={'white'} size={36} />
+            </View>
+            <Text style={styles.statusText} >Success</Text>
+            <Text style={styles.msgText} >Your payment was successful! Thank you for your purchase.</Text>
+            <TouchableOpacity style={[styles.modalButton, {backgroundColor: Colors.Primary}]} onPress={() => setSuccessModal(false)}>
+              <Text style={styles.modalbtntext}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={errorModal}
+        onRequestClose={() => setErrorModal(!errorModal)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <View style={[styles.iconContainer, {backgroundColor: 'red'}]}>
+              <AntDesign name='question' color={'white'} size={36} />
+            </View>
+            <Text style={styles.statusText} >{'Error: ' + errorCode}</Text>
+            <Text style={styles.msgText} >{errormsg}</Text>
+            <TouchableOpacity style={[styles.modalButton, {backgroundColor: 'red'}]} onPress={() => setErrorModal(false)}>
+              <Text style={styles.modalbtntext}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
     </SafeAreaView>
   )
 }
@@ -252,4 +353,46 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'poppins-bold',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalView: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 25,
+    padding: 20,
+    alignItems: "center",
+  },
+  iconContainer: {
+    width: 60,
+    height: 60, 
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  statusText: {
+    marginTop: 20,
+    fontFamily: 'poppins-semibold',
+    fontSize: 24,
+  },
+  msgText: {
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalButton: {
+    marginTop: 35,
+    marginBottom: 10,
+    width: '80%',
+    padding: 13,
+    alignItems: 'center',
+    borderRadius: 10
+  },
+  modalbtntext: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'poppins-bold'
+  }
 })

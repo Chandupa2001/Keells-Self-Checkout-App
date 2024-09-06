@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { Feather, Fontisto, Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Href, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { firebase } from '../../../configs/FirebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function SignUp() {
   const [hidePass, setHidePass] = useState(true);
