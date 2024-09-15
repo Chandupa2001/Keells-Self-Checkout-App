@@ -131,7 +131,7 @@ export default function Cart() {
     const { paymentIntent } = await fetchPaymentSheetParams();
 
     const { error } = await initPaymentSheet({
-      merchantDisplayName: "Example, Inc.",
+      merchantDisplayName: "Keells Super.",
       paymentIntentClientSecret: paymentIntent,
       // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
       //methods that complete payment after a delay, like SEPA Debit and Sofort.
