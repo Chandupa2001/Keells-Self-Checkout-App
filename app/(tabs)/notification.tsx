@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import { firebase } from '../../configs/FirebaseConfig'
@@ -50,6 +50,7 @@ export default function notification() {
       <View style={styles.header}>
         <Text style={styles.headerText}>Notifications</Text>
       </View>
+      <ScrollView>
       {deals.map((deal) => (
         <View key={deal.id} style={styles.card}>
           <Text style={styles.cardTitle}>{deal.data.title}</Text>
@@ -61,6 +62,7 @@ export default function notification() {
           </View>
         </View>
       ))}
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: '5%',
     borderRadius: 20,
+    marginBottom: '7%'
   },
   cardTitle: {
     fontFamily: 'poppins-semibold',
