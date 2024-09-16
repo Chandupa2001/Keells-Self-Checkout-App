@@ -31,8 +31,21 @@ export default function Profile() {
     }
   }
 
+  const onPasswordChange = () => {
+
+    firebase.auth().sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert("Reset Password", "Password reset email sent to your email.")
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert(errorCode, errorMessage)
+      });
+  }
+
   const onSignOut = () => {
-    Alert.alert("Log Out", "Are you sure you need to logout from the app?",[
+    Alert.alert("Log Out", "Are you sure you need to logout from the app?", [
       {
         text: 'Cancel',
       },
@@ -67,7 +80,7 @@ export default function Profile() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.settingContainer}>
+      <TouchableOpacity style={styles.settingContainer} onPress={onPasswordChange}>
         <View style={styles.settingTitleContainer}>
           <FontAwesome name="lock" size={24} color={Colors.Primary} style={styles.settingIcon} />
           <View>
@@ -129,7 +142,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5', 
+    backgroundColor: '#F5F5F5',
   },
   header: {
     backgroundColor: Colors.Primary,
@@ -182,21 +195,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'white',
-    paddingVertical: 15, 
-    paddingHorizontal: '8%', 
-    marginBottom: 5, 
-    borderRadius: 10, 
-    shadowColor: '#000', 
+    paddingVertical: 15,
+    paddingHorizontal: '8%',
+    marginBottom: 5,
+    borderRadius: 10,
+    shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 1,
   },
   settingTitleContainer: {
     flexDirection: 'row',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   settingIcon: {
-    marginRight: 20, 
+    marginRight: 20,
   },
   arrowIcon: {
     marginRight: '5%',
