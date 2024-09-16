@@ -91,7 +91,7 @@ export default function Profile() {
         <MaterialIcons name="navigate-next" size={24} color="black" style={styles.arrowIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.settingContainer}>
+      <TouchableOpacity style={styles.settingContainer} onPress={() => router.push('/AboutUs')}>
         <View style={styles.settingTitleContainer}>
           <FontAwesome name="lock" size={24} color={Colors.Primary} style={styles.settingIcon} />
           <View>
