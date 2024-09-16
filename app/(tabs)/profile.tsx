@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import { firebase } from '../../configs/FirebaseConfig'
@@ -29,6 +29,25 @@ export default function Profile() {
     } else {
       console.log("No user found")
     }
+  }
+
+  const onSignOut = () => {
+    Alert.alert("Log Out", "Are you sure you need to logout from the app?",[
+      {
+        text: 'Cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          firebase.auth().signOut().then(() => {
+            AsyncStorage.clear();
+            router.replace('/auth/sign-in/Login')
+          }).catch((error) => {
+            console.log(error)
+          });
+        }
+      }
+    ])
   }
 
   return (
@@ -92,7 +111,7 @@ export default function Profile() {
         <MaterialIcons name="navigate-next" size={24} color="black" style={styles.arrowIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.settingContainer}>
+      <TouchableOpacity style={styles.settingContainer} onPress={onSignOut}>
         <View style={styles.settingTitleContainer}>
           <Entypo name="log-out" size={24} color={Colors.Primary} style={styles.settingIcon} />
           <View>
