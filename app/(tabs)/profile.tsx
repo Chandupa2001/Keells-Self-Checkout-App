@@ -4,7 +4,8 @@ import { Colors } from '@/constants/Colors'
 import { firebase } from '../../configs/FirebaseConfig'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { useRouter } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
+import * as Linking from 'expo-linking';
 
 export default function Profile() {
 
@@ -102,7 +103,7 @@ export default function Profile() {
         <MaterialIcons name="navigate-next" size={24} color="black" style={styles.arrowIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.settingContainer}>
+      <TouchableOpacity style={styles.settingContainer} onPress={() => Linking.openURL('https://www.keellssuper.com/PrivacyPolicy')}>
         <View style={styles.settingTitleContainer}>
           <MaterialIcons name="privacy-tip" size={20} color={Colors.Primary} style={styles.settingIcon} />
           <View>
@@ -113,7 +114,7 @@ export default function Profile() {
         <MaterialIcons name="navigate-next" size={24} color="black" style={styles.arrowIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.settingContainer}>
+      <TouchableOpacity style={styles.settingContainer} onPress={() => Linking.openURL('https://www.keellssuper.com/keells-faq')}>
         <View style={styles.settingTitleContainer}>
           <MaterialCommunityIcons name="frequently-asked-questions" size={20} color={Colors.Primary} style={styles.settingIcon} />
           <View>
