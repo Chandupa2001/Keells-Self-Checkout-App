@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, StatusBar, Image, LogBox } from 'react-native'
+import { View, Text, StyleSheet, StatusBar, Image, LogBox, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { firebase } from '../../configs/FirebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
         if (uid) {
             const user = (await firebase.firestore().collection('users').doc(uid).get()).data();
             if (user) {
-                setName(user.name);   
+                setName(user.name);
             }
         } else {
             console.log("No user found")
@@ -33,9 +33,9 @@ export default function Home() {
             <View style={styles.topBox}>
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo} source={require('../../assets/images/logo_white.png')} />
-                    <View style={styles.notificationContainer}>
-                    <Ionicons name="notifications-sharp" size={24} color={Colors.Primary} />
-                    </View>
+                    <TouchableOpacity style={styles.notificationContainer}>
+                        <FontAwesome5 name="history" size={24} color={Colors.Primary} />
+                    </TouchableOpacity>
                 </View>
                 <Text style={styles.textTop}>{'Hello, ' + name}</Text>
             </View>
