@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/constants/Colors';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
+import { router } from 'expo-router';
 
 export default function Home() {
 
@@ -33,7 +34,7 @@ export default function Home() {
             <View style={styles.topBox}>
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo} source={require('../../assets/images/logo_white.png')} />
-                    <TouchableOpacity style={styles.notificationContainer}>
+                    <TouchableOpacity style={styles.notificationContainer} onPress={() => router.push('/OrderHistory')}>
                         <FontAwesome5 name="history" size={24} color={Colors.Primary} />
                     </TouchableOpacity>
                 </View>
