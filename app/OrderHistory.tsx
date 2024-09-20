@@ -4,6 +4,7 @@ import { Colors } from '@/constants/Colors';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { firebase } from '../configs/FirebaseConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type CartItem = {
     data: {
@@ -37,7 +38,8 @@ export default function OrderHistory() {
 
     const fetchOrders = async () => {
         try {
-            const querySnapshot = await firebase.firestore().collection('orders').get();
+            const uid = await AsyncStorage.getItem('USERID');
+            const querySnapshot = await firebase.firestore().collection('orders').where('userId', '==', uid).get();
             const ordersData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 data: doc.data() as Order['data'],
