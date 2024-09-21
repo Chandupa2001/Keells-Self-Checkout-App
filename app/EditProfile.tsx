@@ -55,7 +55,7 @@ export default function EditProfile() {
                     <Text style={styles.nametxt}>{name}</Text>
                     <Text>{email}</Text>
                     <TouchableOpacity style={styles.editbtn} onPress={() => router.push('/EditProfile')}>
-                        <Text style={styles.editBtnTxt}>Change Photo</Text>
+                        <Text style={styles.editBtnTxt}>Add Photo</Text>
                     </TouchableOpacity>
                 </View>
             </View>
