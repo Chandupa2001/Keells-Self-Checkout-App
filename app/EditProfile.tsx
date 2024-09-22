@@ -127,6 +127,25 @@ export default function EditProfile() {
         router.replace('/(tabs)/profile')
     }
 
+    const onSavePress = async () => {
+        try {
+            const uid = await AsyncStorage.getItem('USERID');
+            if (!uid) {
+                return
+            }
+            await firebase.firestore().collection('users').doc(uid).set({
+              name,
+              email,
+              phoneNumber: phoneNo,
+            }, { merge: true });
+            Alert.alert("Success", "Successfully saved");
+            router.replace('/(tabs)/profile');
+          } catch (error) {
+            console.error("Error saving document: ", error);
+            Alert.alert("Error", "Please try again");
+          }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
 
@@ -199,7 +218,7 @@ export default function EditProfile() {
                         />
                     </View>
                 </View>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={onSavePress}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
             </View>
