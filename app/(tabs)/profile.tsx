@@ -11,6 +11,7 @@ export default function Profile() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [profilePic, setProfilePic] = useState('');
 
   const router = useRouter();
 
@@ -26,6 +27,7 @@ export default function Profile() {
       if (user) {
         setName(user.name);
         setEmail(user.email);
+        setProfilePic(user.profilePic);
       }
     } else {
       console.log("No user found")
@@ -71,7 +73,7 @@ export default function Profile() {
       </View>
 
       <View style={styles.profileContainer}>
-        <Image style={styles.profilePic} source={require('../../assets/images/profile.png')} />
+        <Image style={styles.profilePic} source={profilePic ? { uri: profilePic } : require('../../assets/images/profile.png')} />
         <View>
           <Text style={styles.nametxt}>{name}</Text>
           <Text>{email}</Text>
