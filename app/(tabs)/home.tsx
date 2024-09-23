@@ -5,12 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '@/constants/Colors';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
-import { router } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 
 export default function Home() {
 
     const [name, setName] = useState('');
     const isFocused = useIsFocused();
+
+    const router = useRouter();
 
     useEffect(() => {
         getName();
@@ -40,16 +42,26 @@ export default function Home() {
                 </View>
                 <Text style={styles.textTop}>{'Hello, ' + name}</Text>
             </View>
+            <View style={styles.imageContainer}>
+                <Image
+                    source={require('../../assets/images/home.jpg')}
+                    style={styles.image}
+                    resizeMode="contain"
+                />
+            </View>
+            <TouchableOpacity style={styles.button} onPress={() => router.push('/(tabs)/scan')}>
+                <Text style={styles.buttonTxt}>Start Shopping</Text>
+            </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     topBox: {
-        height: '45%',
         backgroundColor: Colors.Primary,
         borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30
+        borderBottomRightRadius: 30,
+        paddingBottom: '6%'
     },
     logoContainer: {
         flexDirection: 'row',
@@ -79,5 +91,28 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 25,
         marginTop: -10
+    },
+    imageContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '65%'
+    },
+    image: {
+        width: '90%',
+    },
+    button: {
+        padding: 20,
+        marginTop: '55%',
+        backgroundColor: Colors.Primary,
+        width: '90%',
+        alignSelf: 'center',
+        borderRadius: 20
+    },
+    buttonTxt: {
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'poppins-semibold',
+        fontSize: 16
     }
-})
+});
