@@ -111,10 +111,8 @@ export default function Login() {
                     </Text>
                 </View>
 
-                <Text style={{marginVertical: '8%', textAlign: 'center', marginTop: 0, backgroundColor: 'purple', color: 'white', padding: 15}} onPress={() => router.replace('/(tabs)/home')}>Temporary Login</Text>
-
             </View>
-
+            
         </View>
     );
 }
