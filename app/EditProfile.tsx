@@ -122,11 +122,6 @@ export default function EditProfile() {
           ]);
     }
 
-    const onBackPressed = () => {
-        deleteProfilePhoto();
-        router.replace('/(tabs)/profile')
-    }
-
     const onSavePress = async () => {
         try {
             const uid = await AsyncStorage.getItem('USERID');
@@ -150,7 +145,7 @@ export default function EditProfile() {
         <SafeAreaView style={styles.container}>
 
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backBtnContainer} onPress={onBackPressed}>
+                <TouchableOpacity style={styles.backBtnContainer} onPress={() => router.replace('/(tabs)/profile')}>
                     <Ionicons name="chevron-back-outline" size={24} color={Colors.Primary} />
                 </TouchableOpacity>
                 <View>
