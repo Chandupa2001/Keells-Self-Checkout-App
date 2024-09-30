@@ -1,50 +1,80 @@
-# Welcome to your Expo app 👋
+Here's a GitHub README template for your self-checkout mobile app project:
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+---
 
-## Get started
+# 🛒 Keells Self-Checkout Mobile App
 
-1. Install dependencies
+### Overview
+This self-checkout mobile app was developed using Expo, Firebase, Node.js, Express, and Stripe to provide a seamless shopping experience at Keells supermarket. While created for learning purposes, the app allows users to scan item barcodes, generate a final bill, and make secure payments via Stripe. Additionally, an admin dashboard built with React and Firebase helps manage products, offers, and purchase tracking.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+### 📲 Key Features
+- **Scan Items:** Users can scan item barcodes to generate bills on their own.
+- **Secure Payments:** Integration with Stripe ensures safe and secure payments.
+- **View Purchases & Offers:** Users can access their past purchases and view available offers.
+- **Admin Dashboard:** Manage products, offers, and purchases through a web-based admin panel.
 
-   ```bash
-    npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+### 🛠️ Technologies Used
+- **Frontend:** [Expo](https://expo.dev/), [React](https://reactjs.org/)
+- **Backend:** [Node.js](https://nodejs.org/), [Express](https://expressjs.com/)
+- **Database:** [Firebase](https://firebase.google.com/)
+- **Payments:** [Stripe](https://stripe.com/)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 🔗 Project Links
+- **Mobile App Repository:** [GitHub Link](https://lnkd.in/dXakM8ce)
+- **Backend for Stripe Integration:** [GitHub Link](https://lnkd.in/dyZudd9J)
+- **Admin Panel:** [GitHub Link](https://lnkd.in/dSvicPMa)
 
-## Get a fresh project
+---
 
-When you're ready, run:
+### 🚀 Setup Instructions
 
+#### 1. Clone the Repositories:
 ```bash
-npm run reset-project
+git clone https://github.com/yourusername/keells-self-checkout-app
+git clone https://github.com/yourusername/keells-backend-stripe
+git clone https://github.com/yourusername/keells-admin-panel
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+#### 2. Install Dependencies:
+```bash
+cd keells-self-checkout-app
+npm install
 
-## Learn more
+cd ../keells-backend-stripe
+npm install
 
-To learn more about developing your project with Expo, look at the following resources:
+cd ../keells-admin-panel
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+#### 3. Configure Environment Variables:
+- Add Firebase and Stripe API keys to `.env` files in the respective folders.
 
-## Join the community
+#### 4. Run the Applications:
+- For Mobile App:
+  ```bash
+  npm start
+  ```
+- For Backend:
+  ```bash
+  npm run dev
+  ```
+- For Admin Panel:
+  ```bash
+  npm start
+  ```
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 💡 Disclaimer
+This project was developed for educational purposes and is not officially affiliated with Keells supermarket.
+
+---
+
+Feel free to modify and expand on this as needed!
