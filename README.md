@@ -1,5 +1,3 @@
-Here's a GitHub README template for your self-checkout mobile app project:
-
 ---
 
 # 🛒 Keells Self-Checkout Mobile App
@@ -24,6 +22,15 @@ This self-checkout mobile app was developed using Expo, Firebase, Node.js, Expre
 - **Payments:** [Stripe](https://stripe.com/)
 
 ---
+
+![WhatsApp Image 2025-01-16 at 13 05 40_a3c6318b](https://github.com/user-attachments/assets/581cb5b2-39f7-4c6a-b27f-4d069e62e642)
+![WhatsApp Image 2025-01-16 at 13 05 40_a0fe0045](https://github.com/user-attachments/assets/1d926d64-9445-4e53-a0db-72e04b250a15)
+![WhatsApp Image 2025-01-16 at 13 05 40_19171584](https://github.com/user-attachments/assets/9accbe6b-850c-409c-b33a-30111595a6db)
+![WhatsApp Image 2025-01-16 at 13 05 39_eb3e20e3](https://github.com/user-attachments/assets/c1424ca1-2f3e-4cbe-91bc-5885c941ddbc)
+![WhatsApp Image 2025-01-16 at 13 05 39_7bf157f2](https://github.com/user-attachments/assets/6905a2e8-de2e-43c6-a093-2bb724af6241)
+![WhatsApp Image 2025-01-16 at 13 05 39_2122282d](https://github.com/user-attachments/assets/70c0735b-d180-4968-8216-85423883bc38)
+
+
 
 ### 🔗 Project Links
 - **Mobile App Repository:** [GitHub Link](https://lnkd.in/dXakM8ce)
